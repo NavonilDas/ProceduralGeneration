@@ -4,7 +4,7 @@ import random
 from noise import pnoise2
 import math
 
-TILE_SIZE = 32
+TILE_SIZE = 16
 BLANK = (0,0,0,0)
 GRASS_PRIMARY = (106,190,48,255)
 GRASS_BORDER = (77,164,17, 255)
