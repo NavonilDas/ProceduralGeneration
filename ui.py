@@ -24,8 +24,8 @@ class GrassDisplayApp(BoxLayout):
         self.save_btn.bind(on_press=self.on_image_save)
 
         
-        self.img1=Image(size=(200,200))
         self.img = create_2d_grass_tileset()
+        self.img1=Image(size=self.img.shape[:2])
         self.add_widget(self.img1)
         Clock.schedule_interval(self.update, 1.0/33.0)
 

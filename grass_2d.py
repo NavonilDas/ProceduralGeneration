@@ -4,17 +4,19 @@ import random
 from noise import pnoise2
 import math
 
-TILE_SIZE = 16
+TILE_SIZE = 32
 BLANK = (0,0,0,0)
-GRASS_PRIMARY = (106,190,48,255)
-GRASS_BORDER = (77,164,17, 255)
-GRASS_HIGHLIGHT = (153, 229, 80, 255)
+GRASS_PRIMARY = (88, 143, 61,255)
+GRASS_BORDER = (54, 99, 61, 255)
+GRASS_HIGHLIGHT = (170, 191, 64, 255)
+HALF_TILE = TILE_SIZE // 2
+BLANK_IMG = np.zeros((TILE_SIZE, TILE_SIZE, 4), dtype=np.uint8)
 
 def map_value(value, start1, stop1, start2, stop2):
     """Map value from one range to another."""
     return start2 + (float(value - start1) / (stop1 - start1)) * (stop2 - start2)
 
-# values = [pnoise1(i * 0.1, octaves=4) for i in range(200)]
+# values = [pnoise1(i * 0.05, octaves=4) for i in range(200)]
 # print(values) // -1 to 1
 # x_noise = pnoise1(200 + i * 0.05, octaves=4)
 # x = int(map_value(x_noise, -1, 1, 0, TILE_SIZE - 1))
@@ -32,14 +34,14 @@ def random_grass(w:int, h:int, max_spot_percentage:float, grass_img: NDArray):
     
 
 
-def create_middle_grass(tile_size, max_spot_percentage=0.1):
+def create_middle_grass(tile_size, max_spot_percentage=0.05):
     grass_middle = np.zeros((tile_size, tile_size, 4), dtype=np.uint8)
     grass_middle[:] = GRASS_PRIMARY
     random_grass(tile_size, tile_size, max_spot_percentage, grass_middle)
     return grass_middle
 
 
-def create_half_filled(tile_size, rotation, max_spot_percentage=0.1):
+def create_half_filled(tile_size, rotation, max_spot_percentage=0.05):
     if rotation%90 != 0:
         raise RuntimeError("Can be rotated only in multiple of 90 Degrees")
     w,h = tile_size, tile_size//2
@@ -71,7 +73,7 @@ def create_half_filled(tile_size, rotation, max_spot_percentage=0.1):
     return grass_img
 
 
-def create_half_circle(tile_size, rotation, max_spot_percentage=0.1):
+def create_half_circle(tile_size, rotation, max_spot_percentage=0.05):
     grass_img = np.zeros((tile_size, tile_size, 4), dtype=np.uint8)
     r = tile_size // 2
     offset = random.randint(0, 100019)
@@ -123,7 +125,7 @@ def create_from_to(tile_size, rotation, hflip = 0, vflip = 0, max_spot_percentag
     
     return grass_img
 
-def create_diagonal(tile_size, hflip = False, max_spot_percentage=0.1):
+def create_diagonal(tile_size, hflip = False, max_spot_percentage=0.05):
     grass_img = np.zeros((tile_size, tile_size, 4), dtype=np.uint8)
     r = tile_size // 2
     grass_img[:] = GRASS_PRIMARY
